@@ -33,6 +33,7 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
         const servicesCollection = client.db("servicesDB").collection('services');
+        const bookedServicesCollection = client.db("servicesDB").collection('bookedServices');
 
         app.get('/services', async (req, res) => {
             const cursor = servicesCollection.find();
@@ -53,6 +54,14 @@ async function run() {
             const result = await servicesCollection.insertOne(newService);
             res.send(result);
         })
+
+        app.post('/book-service', async (req, res) => {
+            const newBookedService = req.body;
+            console.log(newBookedService);
+            const result = await bookedServicesCollection.insertOne(newBookedService);
+            res.send(result);
+        })
+
 
 
         // Send a ping to confirm a successful connection
