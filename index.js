@@ -84,13 +84,19 @@ async function run() {
                     description: updatedService.description,
                     providerEmail: updatedService.providerEmail,
                     providerImageUrl: updatedService.providerImageUrl,
-                    providerName: updatedService.providerName,    
+                    providerName: updatedService.providerName,
                 }
             }
             const result = await servicesCollection.updateOne(filter, updateService, options);
             res.send(result);
         })
 
+        app.delete('/service/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await servicesCollection.deleteOne(query);
+            res.send(result);
+        })
 
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
