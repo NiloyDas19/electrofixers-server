@@ -48,6 +48,12 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/book-service', async (req, res) => {
+            const cursor = bookedServicesCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
         app.post('/services', async (req, res) => {
             const newService = req.body;
             console.log(newService);
