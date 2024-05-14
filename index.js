@@ -91,6 +91,21 @@ async function run() {
             res.send(result);
         })
 
+        app.put('/update-booked-service/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedService = req.body;
+
+            const updateService = {
+                $set: {
+                   status : updatedService.newStatus,
+                }
+            }
+            const result = await bookedServicesCollection.updateOne(filter, updateService, options);
+            res.send(result);
+        })
+
         app.delete('/service/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
