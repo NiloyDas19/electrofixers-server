@@ -9,7 +9,9 @@ const app = express()
 
 // middleware
 
-app.use(cors());
+app.use(cors({
+    origin: ['https://electrofixers-6499c.web.app', 'http://localhost:5173'],
+}));
 app.use(express.json());
 
 
@@ -31,7 +33,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
         const servicesCollection = client.db("servicesDB").collection('services');
         const bookedServicesCollection = client.db("servicesDB").collection('bookedServices');
 
@@ -99,7 +101,7 @@ async function run() {
 
             const updateService = {
                 $set: {
-                   status : updatedService.newStatus,
+                    status: updatedService.newStatus,
                 }
             }
             const result = await bookedServicesCollection.updateOne(filter, updateService, options);
